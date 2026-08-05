@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delivery-lab
+  labels:
+    app: delivery-lab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delivery-lab
+  template:
+    metadata:
+      labels:
+        app: delivery-lab
+    spec:
+      containers:
+        - name: delivery-lab
+          # Image name is overridden by the overlay (tag in dev, digest via CI).
+          image: "docker.io/<DOCKERHUB_USER>/delivery-lab:v1"
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
