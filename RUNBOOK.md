@@ -197,12 +197,130 @@ Avoid manually changing the dev digest or running `kubectl apply -k` for normal
 updates. Those are only part of the manual-baseline section; Git and the
 deployment PR are the steady-state deployment path.
 
+## 4. Checkpoint 2: Trust and recover from an automated dev deployment
+
+This checkpoint proves that `Synced` means Argo CD applied the Git revision; it
+does not prove the new release is usable. The application exposes separate
+startup, liveness, and readiness checks so that a container crash can be
+distinguished from a running but unavailable Pod.
+
+Do not repair either scenario with `kubectl`. The Deployment must recover from
+a Git change so the demo follows the same control path as a real dev release.
+Before starting, deploy this branch's failure-switch support as an ordinary
+healthy application release through the workflow in section 3.
+
+### 4.1 Record a known-good release
+
+Start from the successful Checkpoint 1 release. In one terminal, record the
+current immutable image reference and confirm the application is healthy:
+
+```bash
+KNOWN_GOOD_IMAGE="$(kubectl -n dev get deployment delivery-lab \
+  -o jsonpath='{.spec.template.spec.containers[0].image}')"
+printf '%s\n' "$KNOWN_GOOD_IMAGE"
+
+kubectl -n argocd get application delivery-lab-dev
+kubectl -n dev get deployment,pods -l app=delivery-lab
+curl -fsS http://localhost/hello
+curl -fsS http://localhost/actuator/health/readiness
+```
+
+The Argo CD Application should be `Synced` and `Healthy`; the Pod should be
+`1/1 Ready`. Keep `KNOWN_GOOD_IMAGE` in this terminal for the rollback check.
+
+### 4.2 Ship a deliberate startup failure
+
+The startup-failure patch is checked in but inactive. Create a configuration
+PR that adds it to the dev overlay's `kustomization.yaml`:
+
+```yaml
+patches:
+  - path: checkpoint-2-startup-failure.yaml
+```
+
+The patch appends `--delivery-lab.demo.failure-mode=startup` to the existing
+container entrypoint. Merge the configuration PR, then watch the release:
+
+```bash
+kubectl -n argocd get application delivery-lab-dev -w
+```
+
+Argo CD can become `Synced` even though the Deployment remains `Progressing`
+or becomes `Degraded`. Stop the watch once that distinction is visible.
+
+### 4.3 Diagnose from Argo CD to the process
+
+Follow this order rather than starting with arbitrary commands:
+
+```text
+Argo CD Application → Deployment / ReplicaSet → Pod state → events → logs
+```
+
+```bash
+kubectl -n argocd get application delivery-lab-dev -o yaml
+kubectl -n dev rollout status deployment/delivery-lab --timeout=90s || true
+kubectl -n dev get deployment,replicaset,pods -l app=delivery-lab
+kubectl -n dev describe pod -l app=delivery-lab
+kubectl -n dev logs POD_NAME --previous
+```
+
+The new container exits with `Checkpoint 2 deliberate startup failure` and
+enters `CrashLoopBackOff`. Replace `POD_NAME` with that new failing Pod from
+the preceding list. The prior ready replica may remain serving traffic while
+the rolling update cannot make the bad replacement available.
+
+### 4.4 Roll back the desired state
+
+Use GitHub's **Revert** action on the merged configuration PR that introduced the
+startup-failure patch, then merge the resulting rollback PR. This removes the
+patch and restores the exact known-good desired state without rebuilding an
+image.
+
+```bash
+kubectl -n argocd get application delivery-lab-dev -w
+```
+
+After the Application is `Synced` and `Healthy`, verify that it returned to the
+same digest captured before the incident:
+
+```bash
+CURRENT_IMAGE="$(kubectl -n dev get deployment delivery-lab \
+  -o jsonpath='{.spec.template.spec.containers[0].image}')"
+test "$CURRENT_IMAGE" = "$KNOWN_GOOD_IMAGE" && echo "rolled back to known-good image"
+kubectl -n dev get pods -l app=delivery-lab
+curl -fsS http://localhost/hello
+```
+
+### 4.5 Distinguish a readiness failure from a crash
+
+Repeat the same flow, but create a configuration PR that adds this patch to
+the dev overlay's `kustomization.yaml` instead:
+
+```yaml
+patches:
+  - path: checkpoint-2-readiness-failure.yaml
+```
+
+After merging, the process remains running and its liveness endpoint stays
+`UP`, but its readiness endpoint reports unavailable. Observe the difference:
+
+```bash
+kubectl -n dev get pods -l app=delivery-lab -w
+kubectl -n dev describe pod -l app=delivery-lab
+```
+
+The replacement Pod is `Running` but `0/1 Ready`; it is not a
+`CrashLoopBackOff`. Kubernetes keeps it out of Service endpoints. Revert that
+configuration PR, then verify the known-good image and a ready Pod.
+
 ## Quick diagnosis
 
 | Symptom | Check |
 | --- | --- |
 | Pod cannot pull or start | `kubectl -n dev describe pod -l app=delivery-lab` |
 | App is unhealthy | `kubectl -n dev logs deployment/delivery-lab` |
+| Argo is Synced but not Healthy | Follow section 4.3 from Application to logs |
+| Pod is running but unavailable | `kubectl -n dev describe pod -l app=delivery-lab` |
 | Gateway returns 502 | `kubectl -n dev describe httproute delivery-lab` |
 | `localhost` refuses connections | `kubectl -n nginx-gateway get svc` |
 | Argo is not synced | `kubectl -n argocd get application delivery-lab-dev -o yaml` |

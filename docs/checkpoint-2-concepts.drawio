@@ -1,0 +1,208 @@
+<mxfile host="app.diagrams.net" version="24.7.17" type="device">
+  <diagram id="cp2-page-1-synced-healthy" name="1 · Synced ≠ Healthy">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="620" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="s_title" value="Synced is not Healthy" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="800" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="s_sub" value="Argo applied your YAML. That alone does not mean the release is usable." style="text;html=1;fontSize=13;fontStyle=2;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="900" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s_synced" value="SYNCED&lt;br&gt;&lt;br&gt;Git revision == cluster. Argo successfully applied the manifest." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="400" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s_healthy" value="HEALTHY&lt;br&gt;&lt;br&gt;The workload is actually up: Deployment rolled out, Pod Ready and serving." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="540" y="100" width="400" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="s_tierh" value="Three tiers — Checkpoint 2 is the middle one:" style="text;html=1;fontSize=13;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="600" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="s_t1" value="Synced + Healthy  →  up and behaving   (Checkpoint 1 — happy path)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;verticalAlign=middle;spacingLeft=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="60" y="240" width="880" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="s_t2" value="Synced + NOT Healthy  →  applied, but crashing or not Ready    ◄  CHECKPOINT 2 (this demo)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;verticalAlign=middle;spacingLeft=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="60" y="294" width="880" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="s_t3" value="Synced + Healthy, yet bad for users  →  Pod Ready but latency / errors wrong   (Checkpoint 3 — metrics)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;verticalAlign=middle;spacingLeft=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="60" y="354" width="880" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="s_note" value="Checkpoint 2 lives in the middle tier — the failures Kubernetes and Argo CAN see (crash or not-Ready). The invisible &quot;Healthy but bad&quot; kind waits for Checkpoint 3." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="60" y="430" width="880" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cp2-page-2-modes" name="2 · Two Failure Modes">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1080" pageHeight="620" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="m_title" value="Two ways a release fails — one toggle" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="800" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="m_sub" value="delivery-lab.demo.failure-mode  =  none | startup | readiness    (set by a dev-overlay patch, applied through Git)" style="text;html=1;fontSize=13;fontStyle=2;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="1000" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="m_lh" value="failure-mode = startup" style="text;html=1;fontSize=15;fontStyle=1;fontColor=#b85450;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="80" y="100" width="420" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="m_l1" value="ApplicationReadyEvent → throws IllegalStateException → process exits" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="80" y="135" width="420" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m_l2" value="startupProbe / livenessProbe (/actuator/health/liveness) fail" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="80" y="205" width="420" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m_lr" value="Pod: CrashLoopBackOff&lt;br&gt;container keeps restarting; never becomes Ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="275" width="420" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="m_le1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="m_l1" target="m_l2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m_le2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="m_l2" target="m_lr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m_rh" value="failure-mode = readiness" style="text;html=1;fontSize=15;fontStyle=1;fontColor=#d79b00;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="580" y="100" width="420" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="m_r1" value="publishes ReadinessState.REFUSING_TRAFFIC → process stays alive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="580" y="135" width="420" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m_r2" value="livenessProbe UP  ·  readinessProbe (/actuator/health/readiness) DOWN" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="580" y="205" width="420" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="m_rr" value="Pod: Running, 0/1 Ready&lt;br&gt;removed from Service endpoints — no traffic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="275" width="420" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="m_re1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="m_r1" target="m_r2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m_re2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="m_r2" target="m_rr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m_banner" value="Both are Synced but NOT Healthy — yet a crash and a running-but-unavailable Pod look different and are diagnosed differently." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="80" y="375" width="920" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m_probe" value="Probes:  startupProbe + livenessProbe → /actuator/health/liveness      ·      readinessProbe → /actuator/health/readiness" style="text;html=1;fontSize=12;fontStyle=2;align=center;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="80" y="455" width="920" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cp2-page-3-diagnose" name="3 · Diagnosis Ladder">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1040" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="g_title" value="Diagnose in order: Argo → down to the process" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="900" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="g_sub" value="Don't reach for random commands — and don't fix it with kubectl. Diagnose only; recover through Git." style="text;html=1;fontSize=13;fontStyle=2;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="960" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="g_spine" value="" style="rounded=0;fillColor=#b0b0b0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="88" y="107" width="4" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="g_n1" value="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#345a8a;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="107" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_l1" value="Argo CD Application" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="107" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_s1" value="Synced ✔   ·   Health = Progressing / Degraded" style="text;html=1;fontSize=13;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="450" y="107" width="560" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_n2" value="2" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#345a8a;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="182" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_l2" value="Deployment / ReplicaSet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="182" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_s2" value="rollout stuck; new ReplicaSet not available; old replica may still serve" style="text;html=1;fontSize=13;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="450" y="182" width="560" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_n3" value="3" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#345a8a;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="257" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_l3" value="Pod state" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="257" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_s3" value="startup → CrashLoopBackOff       |       readiness → Running 0/1" style="text;html=1;fontSize=13;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="450" y="257" width="560" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_n4" value="4" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#345a8a;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="332" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_l4" value="Events" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="332" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_s4" value="BackOff restarting failed container   /   readiness probe failed" style="text;html=1;fontSize=13;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="450" y="332" width="560" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_n5" value="5" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#345a8a;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="407" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_l5" value="Logs (--previous)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="407" width="300" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_s5" value="&quot;Checkpoint 2 deliberate startup failure&quot;" style="text;html=1;fontSize=13;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="450" y="407" width="560" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="g_note" value="The prior ready replica can keep serving while the bad replacement can't go Ready — the release simply didn't happen. Synced, but not delivered." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="70" y="475" width="940" height="55" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cp2-page-4-recovery" name="4 · Recovery = Git revert">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1040" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="r_title" value="Recovery is a Git revert — not a kubectl fix" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="900" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="r_sub" value="Same control path as a real release. Git is the source of truth; the cluster follows." style="text;html=1;fontSize=13;fontStyle=2;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="960" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="r_spine" value="" style="rounded=0;fillColor=#b0b0b0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="88" y="110" width="4" height="410" as="geometry" />
+        </mxCell>
+        <mxCell id="r_n1" value="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#345a8a;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="110" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_b1" value="&lt;b&gt;Record known-good&lt;/b&gt;&lt;br&gt;KNOWN_GOOD_IMAGE = current @sha256  ·  Argo Synced + Healthy  ·  Pod 1/1 Ready" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;verticalAlign=middle;spacingLeft=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="130" y="105" width="820" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="r_n2" value="2" style="ellipse;whiteSpace=wrap;html=1;fillColor=#b85450;strokeColor=#7a2e2b;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="192" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_b2" value="&lt;b&gt;Ship the failure&lt;/b&gt;&lt;br&gt;Config PR adds  patches: - path: checkpoint-2-startup-failure.yaml  → merge → Argo Synced, Deployment Degraded" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;verticalAlign=middle;spacingLeft=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="130" y="187" width="820" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="r_n3" value="3" style="ellipse;whiteSpace=wrap;html=1;fillColor=#666666;strokeColor=#333333;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="274" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_b3" value="&lt;b&gt;Diagnose (Tab 3)&lt;/b&gt;&lt;br&gt;Argo → Deployment → Pod → events → logs.  Do NOT touch the cluster with kubectl." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;verticalAlign=middle;spacingLeft=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="130" y="269" width="820" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="r_n4" value="4" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d6b656;strokeColor=#a68b2f;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="356" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_b4" value="&lt;b&gt;Revert in Git&lt;/b&gt;&lt;br&gt;GitHub &quot;Revert&quot; on the config PR → merge the rollback PR → the failure patch is removed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;verticalAlign=middle;spacingLeft=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="130" y="351" width="820" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="r_n5" value="5" style="ellipse;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#5b8039;fontColor=#ffffff;fontSize=15;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="480" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_b5" value="&lt;b&gt;Reconciled&lt;/b&gt;&lt;br&gt;Argo restores KNOWN_GOOD_IMAGE → Synced + Healthy, 1/1 Ready.  Verify CURRENT_IMAGE == KNOWN_GOOD_IMAGE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;verticalAlign=middle;spacingLeft=10;align=left;" vertex="1" parent="1">
+          <mxGeometry x="130" y="475" width="820" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="r_banner" value="Rollback is a normal, auditable Git action — the cluster never diverges from Git. (The readiness scenario recovers the same way.)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="130" y="560" width="820" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
