@@ -1,0 +1,238 @@
+<mxfile host="app.diagrams.net" version="24.7.17" type="device">
+  <diagram id="page-1-manual" name="1 · Manual Approach">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="700" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="a_title" value="Delivering to Kubernetes by hand — and why it hurts" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="24" width="800" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="a_sub" value="The starting point every viewer already knows: kubectl apply from a laptop." style="text;html=1;fontSize=13;fontStyle=2;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="58" width="800" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="a_dev" value="Developer / Operator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="150" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="a_cluster" value="Kubernetes Cluster" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="600" y="150" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="a_edge" value="kubectl apply -f manifests/&lt;br&gt;(manual, ad-hoc)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=12;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="a_dev" target="a_cluster">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a_p1" value="No source of truth&lt;br&gt;&lt;br&gt;The live cluster is the only record. Your local YAML may already disagree with it." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="a_p2" value="No review or audit trail&lt;br&gt;&lt;br&gt;Anyone with a kubeconfig can change anything. No PR, no approval, no history." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="415" y="320" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="a_p3" value="Not reproducible&lt;br&gt;&lt;br&gt;Manual steps drift between people and environments. &quot;Works on my machine.&quot;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="750" y="320" width="270" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="a_q" value="So: what is actually running right now — and who changed it last?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="480" width="420" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-2-tags" name="2 · Tag vs SHA">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1020" pageHeight="680" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="t2_title" value="How a version tag hides a real change" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="800" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_sub" value="Follow the timeline — two commits, one mutable tag." style="text;html=1;fontSize=13;fontStyle=2;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="800" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_spine" value="" style="rounded=0;fillColor=#b0b0b0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="88" y="140" width="4" height="430" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_n1" value="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#345a8a;fontColor=#ffffff;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="150" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_n2" value="2" style="ellipse;whiteSpace=wrap;html=1;fillColor=#b85450;strokeColor=#7a2e2b;fontColor=#ffffff;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="300" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_n3" value="3" style="ellipse;whiteSpace=wrap;html=1;fillColor=#b85450;strokeColor=#7a2e2b;fontColor=#ffffff;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="70" y="448" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_s1title" value="Commit #1  —  code abc123" style="text;html=1;fontSize=14;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="130" y="120" width="500" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_c1" value="commit&lt;br&gt;abc123" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="130" y="150" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_bld1" value="build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="150" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_digA" value="Digest&lt;br&gt;AAA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="150" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_tag1" value="tag v1 → AAA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="150" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_e1a" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="t2_c1" target="t2_bld1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_e1b" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="t2_bld1" target="t2_digA">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_e1c" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="t2_digA" target="t2_tag1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_ok" value="Deployed: v1 = AAA  ✓" style="text;html=1;fontSize=13;fontStyle=1;fontColor=#82b366;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="730" y="158" width="240" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_s2title" value="Commit #2  —  code def456   (a real change, but the version is NOT bumped)" style="text;html=1;fontSize=14;fontStyle=1;fontColor=#b85450;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="130" y="270" width="740" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_c2" value="commit&lt;br&gt;def456" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="130" y="300" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_bld2" value="build" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="280" y="300" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_digB" value="Digest&lt;br&gt;BBB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="300" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_tag2" value="push tag v1 → BBB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="300" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_e2a" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="t2_c2" target="t2_bld2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_e2b" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="t2_bld2" target="t2_digB">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_e2c" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="t2_digB" target="t2_tag2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_orphan" value="AAA is now orphaned&lt;br&gt;(no tag points to it)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;dashed=1;fontSize=11;fontColor=#999999;" vertex="1" parent="1">
+          <mxGeometry x="730" y="300" width="180" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_eorph" value="tag moved off AAA" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;dashed=1;strokeColor=#999999;fontSize=11;fontColor=#999999;" edge="1" parent="1" source="t2_tag2" target="t2_orphan">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_s3title" value="The problem" style="text;html=1;fontSize=14;fontStyle=1;fontColor=#b85450;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="130" y="418" width="300" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_prob" value="The manifest still says  image: app:v1  —  Git shows NO change.&lt;br&gt;But the running bytes went AAA → BBB silently.&lt;br&gt;A rollback to :v1 now gives BBB, not the old code." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="130" y="448" width="780" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_fix" value="The fix — pin by digest:  reference  @sha256:BBB  in Git. Commit #2 then changes the digest in the manifest → the change is visible in a PR, reviewable, and rollback is exact." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="130" y="560" width="780" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-3-repos" name="3 · One vs Two Repos">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1160" pageHeight="560" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c_title" value="App and config: one repo now, two repos later" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="800" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c_lh" value="Single repository  (Checkpoint 1)" style="text;html=1;fontSize=15;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="60" y="66" width="470" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="c_container" value="delivery-lab/" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=none;strokeColor=#666666;verticalAlign=top;fontStyle=1;fontSize=13;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="100" width="470" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="c_app" value="app/&lt;br&gt;source, Dockerfile, tests" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="90" y="150" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c_deploy" value="deploy/&lt;br&gt;kustomize + Argo Application" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="310" y="150" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c_lnote" value="+  Simplest to follow: one PR flow, no cross-repo permissions&lt;br&gt;&lt;br&gt;−  App CI commits into the repo it builds from — needs a path filter so deploy PRs don't re-trigger builds" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="270" width="470" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="c_rh" value="Two repositories  (Checkpoint 2 →)" style="text;html=1;fontSize=15;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="620" y="66" width="480" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="c_apprepo" value="app-repo&lt;br&gt;source + CI builds image" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="620" y="120" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c_configrepo" value="config-repo&lt;br&gt;manifests Argo watches" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="900" y="120" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="c_edge" value="CI opens a PR&lt;br&gt;(digest bump)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;" edge="1" parent="1" source="c_apprepo" target="c_configrepo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c_rnote" value="Why split:&lt;br&gt;•  Clear ownership &amp; access (app devs vs platform)&lt;br&gt;•  Config repo = single deploy source of truth&lt;br&gt;•  App CI can't touch infra except by opening a PR&lt;br&gt;•  No CI-commit loop inside the app repo&lt;br&gt;•  One config repo can serve many apps" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;verticalAlign=top;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="620" y="220" width="480" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="c_bottom" value="Rule of thumb: start with one repo to learn the delivery boundary; split when team size, access control, or multiple apps justify it." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="410" width="1040" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="page-4-gitops" name="4 · GitOps with Argo CD">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1360" pageHeight="600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="d_title" value="The GitOps delivery loop" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="800" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="d_ciZone" value="Hosted CI — GitHub Actions&#10;(has Git + registry access · NO kubeconfig)" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=#eef6ff;strokeColor=#6c8ebf;verticalAlign=top;fontStyle=1;fontSize=13;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="110" width="540" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="d_cdZone" value="Local CD — Argo CD on Docker Desktop&#10;(has Git + cluster access · watches Git, NOT the registry)" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;fillColor=#eef7ee;strokeColor=#82b366;verticalAlign=top;fontStyle=1;fontSize=13;spacingTop=6;" vertex="1" parent="1">
+          <mxGeometry x="780" y="110" width="540" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="d_git" value="Git repo&lt;br&gt;deploy/overlays/dev&lt;br&gt;(desired state)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="615" y="230" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="d_dev" value="Developer&lt;br&gt;merges app PR → master" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="70" y="180" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d_ci" value="GitHub Actions&lt;br&gt;test → build → push" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="330" y="180" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d_e_devci" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="d_dev" target="d_ci">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d_reg" value="Docker Hub&lt;br&gt;image @sha256 (public)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="330" y="300" width="200" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="d_e_cireg" value="push image" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;" edge="1" parent="1" source="d_ci" target="d_reg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d_pr" value="Open deployment PR&lt;br&gt;(bump overlay digest)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="70" y="290" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="d_e_cipr" value="capture digest" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;" edge="1" parent="1" source="d_ci" target="d_pr">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d_e_prgit" value="reviewed &amp; merged" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;strokeColor=#d6b656;strokeWidth=2;" edge="1" parent="1" source="d_pr" target="d_git">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d_argo" value="Argo CD&lt;br&gt;watches Git → reconciles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="810" y="180" width="220" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d_e_gitargo" value="detects new commit (poll)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="d_git" target="d_argo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d_cluster" value="Kubernetes Cluster&lt;br&gt;runs the exact digest" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="180" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="d_e_argocluster" value="apply / sync" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;fontSize=11;" edge="1" parent="1" source="d_argo" target="d_cluster">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d_status" value="Synced + Healthy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="300" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="d_e_clusterstatus" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" edge="1" parent="1" source="d_cluster" target="d_status">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="d_note" value="CI has no cluster access. Argo has no registry access. The only thing crossing the boundary is a reviewed Git commit." style="text;html=1;fontSize=14;fontStyle=2;align=center;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="470" width="1280" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

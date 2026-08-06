@@ -5,4 +5,4 @@ resources:
   - ../../base
 images:
   - name: docker.io/thecodealchemist/delivery-lab
-    digest: sha256:9245018dd52343c159d81f24df9fe4ef73037da98e3342aa6ac28f4adc716bee
+    newTag: v1
