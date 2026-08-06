@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/thecodealchemist/delivery-lab
+    repoURL: https://github.com/therealdumbprogrammer/delivery-lab
     targetRevision: master
     path: deploy/overlays/dev
   destination:
