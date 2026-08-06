@@ -4,5 +4,5 @@ namespace: dev
 resources:
   - ../../base
 images:
-  - name: docker.io/<DOCKERHUB_USER>/delivery-lab
+  - name: docker.io/thecodealchemist/delivery-lab
     newTag: v1

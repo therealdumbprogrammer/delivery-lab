@@ -5,7 +5,7 @@ A deliberately small Spring Boot service (`/hello` + Actuator) used to build a
 video series.
 
 ```text
-Application PR merged to main
+Application PR merged to master
    → GitHub Actions tests, builds, and pushes an image
    → workflow opens a PR pinning deploy/overlays/dev to the new sha256 digest
    → PR is reviewed and merged

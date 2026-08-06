@@ -17,7 +17,7 @@ spec:
       containers:
         - name: delivery-lab
           # Image name is overridden by the overlay (tag in dev, digest via CI).
-          image: "docker.io/<DOCKERHUB_USER>/delivery-lab:v1"
+          image: "docker.io/thecodealchemist/delivery-lab:v1"
           ports:
             - containerPort: 8080
           readinessProbe:

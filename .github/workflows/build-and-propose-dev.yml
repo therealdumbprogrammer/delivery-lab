@@ -2,7 +2,7 @@ name: build-and-propose-dev
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - 'app/**'          # only app changes trigger a build (deploy PRs must not loop)
 

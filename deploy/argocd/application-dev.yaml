@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/thecodealchemist/delivery-lab
-    targetRevision: main
+    targetRevision: master
     path: deploy/overlays/dev
   destination:
     server: https://kubernetes.default.svc
