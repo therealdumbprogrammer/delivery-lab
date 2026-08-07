@@ -15,7 +15,7 @@ manual deployment through Gateway API
   -> Argo CD deploys the approved digest
 ```
 
-## Starting point: already completed
+## Starting point
 
 Before this runbook begins, you have already:
 
@@ -118,14 +118,6 @@ The workflow is already present locally at
 `.github/workflows/build-and-propose-dev.yml`. Add it to `master`; GitHub shows a
 workflow only after this file exists on the default branch.
 
-```bash
-git add .github/workflows/build-and-propose-dev.yml
-git commit -m "ci: build image and propose a dev deployment"
-git push
-
-gh workflow list
-```
-
 It is normal for this push not to run the workflow: it has a `paths: app/**`
 filter, so only application changes start a build. This prevents a merged
 deployment PR from creating another build.
@@ -165,60 +157,22 @@ kubectl apply -f deploy/argocd/application-dev.yaml
 kubectl -n argocd get application delivery-lab-dev -w
 ```
 
-Argo CD immediately renders the dev overlay from `master` and reconciles it. In
-the UI, show that the Application is `Synced` and `Healthy`; it is now watching
-Git and waiting for a future approved desired-state change.
+Argo CD immediately renders the dev overlay from `master` and reconciles it.
 
-Stop the watch with `Ctrl-C`. The Application resource is in `argocd`; the app
-resources are in `dev`. The Application's `CreateNamespace=true` setting also
-makes the namespace creation safe on a clean cluster.
-
-## 3. Demonstrate the CI-to-CD handoff
+## 3. CI-to-CD handoff
 
 ### 3.1 Change the application and push
 
-Edit `app/src/main/java/dev/deliverylab/HelloController.java` so `/hello`
-returns a visibly different greeting. Then commit and push only that app change:
-
-```bash
-git add app
-git commit -m "feat: update greeting"
-git push
-
-gh run watch
-```
-
-The run tests the application, builds an image, pushes it to Docker Hub, and
+Edit app code and push. CI tests the application, builds an image, pushes it to Docker Hub, and
 opens a deployment PR. It does **not** deploy to Kubernetes and it does **not**
 write directly to `master`.
 
 ### 3.2 Review and merge the deployment proposal
 
-List the pull request created by CI and inspect its diff:
-
-```bash
-gh pr list
-gh pr view NUMBER
-```
-
 The proposed change should only replace the dev overlay's `newTag`/`digest`
 with an immutable `sha256:` digest. Merge it after reviewing:
 
-```bash
-gh pr merge --squash --delete-branch NUMBER
-```
-
-Replace `NUMBER` with the deployment PR number. The merge changes
-`deploy/**`, so the workflow does not build again.
-
 ### 3.3 Watch Argo CD deploy the approved image
-
-```bash
-kubectl -n argocd get application delivery-lab-dev -w
-```
-
-When the Application returns to `Synced` and `Healthy`, stop the watch and
-verify the result through the same Gateway API route:
 
 ```bash
 kubectl -n dev get deployment delivery-lab \

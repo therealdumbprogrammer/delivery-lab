@@ -1,0 +1,107 @@
+<mxfile host="app.diagrams.net" version="24.7.17" type="device">
+  <diagram id="page-0-roadmap" name="0 · Where we are">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1360" pageHeight="640" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="r_title" value="Where we are" style="text;html=1;fontSize=20;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1000" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="r_sub" value="How we got here — and what today adds. You already know how to run apps on Kubernetes; now we make delivering to it repeatable." style="text;html=1;fontSize=13;fontStyle=2;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="56" width="1100" height="22" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_pastcap" value="WHAT YOU ALREADY KNOW  (previous series)" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#82b366;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="500" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_spine" value="" style="rounded=0;fillColor=#c0c0c0;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="150" y="288" width="930" height="4" as="geometry" />
+        </mxCell>
+        <mxCell id="r_fade" value="" style="endArrow=none;html=1;strokeColor=#cccccc;strokeWidth=3;dashed=1;dashPattern=6 6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1106" y="290" as="sourcePoint" />
+            <mxPoint x="1290" y="290" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="r_p1" value="&#10003;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#4a7a3a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="270" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_pl1" value="Images &amp; Pods" style="text;html=1;fontSize=11;align=center;verticalAlign=top;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="70" y="318" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_p2" value="&#10003;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#4a7a3a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="270" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_pl2" value="Deployments, Services,&#10;Gateway API" style="text;html=1;fontSize=11;align=center;verticalAlign=top;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="250" y="318" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_p3" value="&#10003;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#4a7a3a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="270" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_pl3" value="Config, Secrets&#10;&amp; health probes" style="text;html=1;fontSize=11;align=center;verticalAlign=top;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="430" y="318" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_p4" value="&#10003;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#4a7a3a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="670" y="270" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_pl4" value="State &amp; events:&#10;Postgres, Redis, Kafka" style="text;html=1;fontSize=11;align=center;verticalAlign=top;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="610" y="318" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_p5" value="&#10003;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#4a7a3a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="850" y="270" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="r_pl5" value="Scaling &amp; updates:&#10;HPA, rolling updates, Kustomize" style="text;html=1;fontSize=11;align=center;verticalAlign=top;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="778" y="318" width="184" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_here" value="YOU ARE HERE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="220" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r_cur" value="" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#345a8a;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1054" y="264" width="52" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="r_curl" value="GitOps delivery loop&#10;(this video)" style="text;html=1;fontSize=12;fontStyle=1;align=center;verticalAlign=top;fontColor=#345a8a;" vertex="1" parent="1">
+          <mxGeometry x="990" y="324" width="180" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_videocap" value="IN THIS VIDEO — from manual apply to an automated, reviewable loop" style="text;html=1;fontSize=11;fontStyle=1;fontColor=#333333;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="418" width="900" height="18" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_c1" value="1&#10;Why deploying&#10;by hand hurts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="40" y="446" width="300" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="r_c2" value="2&#10;Tags lie,&#10;digests don't" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="360" y="446" width="300" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="r_c3" value="3&#10;The GitOps loop&#10;+ its trust boundaries" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="680" y="446" width="300" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="r_c4" value="4&#10;One repo now,&#10;two repos later" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="446" width="300" height="86" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_e12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#999999;" edge="1" parent="1" source="r_c1" target="r_c2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_e23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#999999;" edge="1" parent="1" source="r_c2" target="r_c3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="r_e34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#999999;" edge="1" parent="1" source="r_c3" target="r_c4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="r_foot" value="Today: one complete, reviewable delivery loop — from a code merge to a running image, with no manual kubectl." style="text;html=1;fontSize=13;fontStyle=2;align=center;verticalAlign=middle;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="560" width="1280" height="34" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

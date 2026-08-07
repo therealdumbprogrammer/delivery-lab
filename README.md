@@ -34,15 +34,6 @@ delivery-lab/
 The service is exposed through **Gateway API**, not `kubectl port-forward`. Two
 one-time cluster installs (full commands in [RUNBOOK.md](RUNBOOK.md) §1.6):
 
-```bash
-# Gateway API CRDs (not built into Kubernetes) — ⚠ check current version
-kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.3.0/standard-install.yaml
-
-# NGINX Gateway Fabric via Helm (install-only) — ⚠ check current chart
-helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric \
-  --create-namespace -n nginx-gateway --set service.type=LoadBalancer
-```
-
 On Docker Desktop the `LoadBalancer` publishes on `localhost`, so once deployed:
 
 ```bash
@@ -55,8 +46,4 @@ ordinary manifests — Argo CD reconciles them alongside the Deployment.
 
 ## Start here
 
-Follow **[RUNBOOK.md](RUNBOOK.md)** top to bottom. Viewers can start a clean
-checkpoint from the tags:
-
-- `cp1-start` — service + manifests, before Argo CD and CI
-- `cp1-done` — the full loop working
+Follow **[RUNBOOK.md](RUNBOOK.md)** top to bottom.
