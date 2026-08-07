@@ -16,7 +16,7 @@ public class DeliveryLabApplication {
     static class HelloResource {
 		@GetMapping("/hello")
 		public String hello() {
-			return "Hello ArgoCD!!";
+			return "Hello ArgoCD Updated!!";
 		}
 	}
 }
