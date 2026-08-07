@@ -8,4 +8,4 @@ spec:
       containers:
         - name: delivery-lab
           args:
-            - --delivery-lab.demo.failure-mode=startup
+            - --delivery-lab.demo.startup-failure=true

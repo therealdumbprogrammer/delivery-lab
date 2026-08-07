@@ -6,3 +6,6 @@ resources:
 images:
   - name: docker.io/thecodealchemist/delivery-lab
     digest: sha256:a7d5be9c070ab4c951f49c0d105dc1fb13d52c2d4e0b1e043b70342297b533f1
+
+patches:
+  - patch: checkpoint-2-startup-failure.yaml

@@ -200,11 +200,10 @@ deployment PR are the steady-state deployment path.
 ## 4. Checkpoint 2: Trust and recover from an automated dev deployment
 
 This checkpoint proves that `Synced` means Argo CD applied the Git revision; it
-does not prove the new release is usable. The application exposes separate
-startup, liveness, and readiness checks so that a container crash can be
-distinguished from a running but unavailable Pod.
+does not prove the new release is usable. A deliberate startup failure shows
+how to diagnose and recover a release that Kubernetes cannot make available.
 
-Do not repair either scenario with `kubectl`. The Deployment must recover from
+Do not repair this scenario with `kubectl`. The Deployment must recover from
 a Git change so the demo follows the same control path as a real dev release.
 Before starting, deploy this branch's failure-switch support as an ordinary
 healthy application release through the workflow in section 3.
@@ -238,7 +237,7 @@ patches:
   - path: checkpoint-2-startup-failure.yaml
 ```
 
-The patch appends `--delivery-lab.demo.failure-mode=startup` to the existing
+The patch appends `--delivery-lab.demo.startup-failure=true` to the existing
 container entrypoint. Merge the configuration PR, then watch the release:
 
 ```bash
@@ -291,28 +290,6 @@ kubectl -n dev get pods -l app=delivery-lab
 curl -fsS http://localhost/hello
 ```
 
-### 4.5 Distinguish a readiness failure from a crash
-
-Repeat the same flow, but create a configuration PR that adds this patch to
-the dev overlay's `kustomization.yaml` instead:
-
-```yaml
-patches:
-  - path: checkpoint-2-readiness-failure.yaml
-```
-
-After merging, the process remains running and its liveness endpoint stays
-`UP`, but its readiness endpoint reports unavailable. Observe the difference:
-
-```bash
-kubectl -n dev get pods -l app=delivery-lab -w
-kubectl -n dev describe pod -l app=delivery-lab
-```
-
-The replacement Pod is `Running` but `0/1 Ready`; it is not a
-`CrashLoopBackOff`. Kubernetes keeps it out of Service endpoints. Revert that
-configuration PR, then verify the known-good image and a ready Pod.
-
 ## Quick diagnosis
 
 | Symptom | Check |
@@ -320,7 +297,6 @@ configuration PR, then verify the known-good image and a ready Pod.
 | Pod cannot pull or start | `kubectl -n dev describe pod -l app=delivery-lab` |
 | App is unhealthy | `kubectl -n dev logs deployment/delivery-lab` |
 | Argo is Synced but not Healthy | Follow section 4.3 from Application to logs |
-| Pod is running but unavailable | `kubectl -n dev describe pod -l app=delivery-lab` |
 | Gateway returns 502 | `kubectl -n dev describe httproute delivery-lab` |
 | `localhost` refuses connections | `kubectl -n nginx-gateway get svc` |
 | Argo is not synced | `kubectl -n argocd get application delivery-lab-dev -o yaml` |
