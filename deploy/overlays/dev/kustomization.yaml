@@ -7,6 +7,7 @@ images:
   - name: docker.io/thecodealchemist/delivery-lab
     digest: sha256:748fd47b8344929a39a0f238c6084566a3bf93388e27e2e2c0c78de9ed7477af
 
-# commented out to restore the working state
-#patches:
-#  - path: checkpoint-2-startup-failure.yaml
+# Checkpoint 2 demo: keep this inactive for the healthy baseline.
+# Uncomment it in a configuration PR to trigger the deliberate startup failure.
+# patches:
+#   - path: checkpoint-2-startup-failure.yaml
